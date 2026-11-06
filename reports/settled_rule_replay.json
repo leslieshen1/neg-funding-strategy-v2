@@ -1,5 +1,5 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "args": {
     "fee": "vip3",
     "exec": "taker",
@@ -9,6 +9,7 @@
     "json": "result.json",
     "windows": "IS,HO,FY",
     "tail_hours": 168,
+    "add_timing": "qualified",
     "entry_snapshots": null,
     "signal_source": "settled",
     "signal_coverage": "continuous",
@@ -40,10 +41,12 @@
     "comparator": "<",
     "recheck_before_hours": 1,
     "applies_to": [
-      "entry",
-      "add"
+      "entry"
     ],
+    "add_timing": "qualified",
     "exit_restricted_to_recheck": false,
+    "add_rule": "any qualified hour while held",
+    "income_training_sample_scope": "T-1h recheck hours; frozen across add-timing comparison",
     "interval_universe": "all observed intervals including 1h, 4h, 8h",
     "schedule_model": "last settled interval persists; no future settlement lookup",
     "historical_announced_schedule_available": false,
@@ -104,49 +107,65 @@
     "calibration": "volume/depth proxy and declared impact assumptions; not private fills"
   },
   "IS": {
-    "ann": 20.479559245680846,
-    "ann_mtm": 20.479559245680846,
+    "ann": 22.33137808304317,
+    "ann_mtm": 22.33137808304317,
     "partial_observation_pnl_only": false,
-    "period_return_on_10m_pct": 14.195420518239054,
+    "period_return_on_10m_pct": 15.479010013725814,
     "status": "fully_unwound",
     "capital_usdt": 10000000.0,
     "annualization_denominator_usdt": 10000000.0,
     "borrow_interest_usdt": 0.0,
-    "n": 210,
+    "n": 209,
     "H": 6072,
     "signal_hours": 5904,
     "tail_hours": 168,
-    "net_wan": 141.95420518239055,
-    "closed_episode_net_wan": 141.95420518239067,
-    "open_episode_net_mtm_wan": -1.1641532182693482e-13,
+    "net_wan": 154.79010013725812,
+    "closed_episode_net_wan": 154.79010013725767,
+    "open_episode_net_mtm_wan": 4.656612873077393e-13,
     "account_cash_audit": {
       "initial_a_usdt": 0.0,
       "initial_b_usdt": 10000000.0,
-      "ending_a_cash_usdt": 2574028.9538043197,
-      "ending_b_wallet_usdt": 8845513.098019717,
+      "ending_a_cash_usdt": 3746824.4020403675,
+      "ending_b_wallet_usdt": 7801076.5993323205,
       "ending_b_unrealized_usdt": 0.0,
       "ending_a_token_liability_mtm_usdt": 0.0,
       "cumulative_b_to_a_usdt": 0.0,
       "cumulative_a_to_b_usdt": 0.0,
       "min_a_cash_usdt": 0.0,
-      "min_b_wallet_usdt": 8835537.981884947,
+      "min_b_wallet_usdt": 7801076.5993323205,
       "unfunded_cash_deficit_usdt": 0.0,
-      "min_hourly_b_equity_usdt": 8784117.162766512,
-      "min_hourly_b_equity_minus_1x_notional_usdt": 6377119.3374489965,
-      "cash_pnl_identity_max_error_usdt": 1.5832483768463135e-07,
+      "min_hourly_b_equity_usdt": 7671703.951915303,
+      "min_hourly_b_equity_minus_1x_notional_usdt": 3706829.826150853,
+      "cash_pnl_identity_max_error_usdt": 1.6624107956886292e-07,
       "transfers": "as needed; immediate and zero-fee model; no external cash injection",
       "withdrawal_availability_verified": false,
       "liquidation_path_verified": false,
       "equity_valuation": "hour-end perpetual close proxy; no intrahour margin replay"
     },
+    "entry_fill_audit": {
+      "first_paired_fills": 209,
+      "add_paired_fills": 3029,
+      "adds_outside_recheck": 1793,
+      "first_fills_outside_recheck": 0
+    },
+    "capital_usage": {
+      "avg_cost_usdt": 2618116.1737481165,
+      "peak_cost_usdt": 6341860.553417236,
+      "avg_mtm_usdt": 2057160.5197844272,
+      "peak_mtm_usdt": 4963027.91586684
+    },
+    "hourly_drawdown": {
+      "usdt": 351255.19778576866,
+      "pct_of_initial_capital": 3.5125519778576866
+    },
     "residual_spot_notional_usdt": 0.0,
     "open_symbols": 0,
-    "fund_wan": 179.95651853128803,
-    "fees_wan": 2.0873201396037517,
-    "price_wan": -35.914993209293705,
+    "fund_wan": 220.23149867122703,
+    "fees_wan": 3.7336867810618775,
+    "price_wan": -61.707711752907024,
     "unrealized_pair_price_wan": 0.0,
-    "cost_wan": 51.393266970566465,
-    "traded_wan": 2279.077018350396,
+    "cost_wan": 91.19559231524126,
+    "traded_wan": 4076.620289141451,
     "gap_wan": 0.0,
     "tiers": {
       "T1": {
@@ -155,27 +174,27 @@
         "hold_h": 0.0
       },
       "T2": {
-        "n": 92,
-        "net_wan": 15.258486536951823,
-        "hold_h": 234.9891304347826
+        "n": 91,
+        "net_wan": 15.415751029628044,
+        "hold_h": 252.36263736263737
       },
       "T3": {
         "n": 69,
-        "net_wan": 38.395223864781364,
-        "hold_h": 492.3623188405797
+        "net_wan": 75.36637058083318,
+        "hold_h": 521.7246376811594
       },
       "T4": {
         "n": 49,
-        "net_wan": 88.30049478065749,
-        "hold_h": 626.6122448979592
+        "net_wan": 64.00797852679645,
+        "hold_h": 668.9591836734694
       }
     }
   },
   "HO": {
     "ann": null,
-    "ann_mtm": 17.03715836039576,
+    "ann_mtm": 19.28045555813749,
     "partial_observation_pnl_only": false,
-    "period_return_on_10m_pct": 5.787966127915273,
+    "period_return_on_10m_pct": 6.550072573175475,
     "status": "open_inventory_liability",
     "capital_usdt": 10000000.0,
     "annualization_denominator_usdt": 10000000.0,
@@ -184,37 +203,53 @@
     "H": 2976,
     "signal_hours": 2856,
     "tail_hours": 120,
-    "net_wan": 57.87966127915273,
-    "closed_episode_net_wan": 53.07313489979393,
-    "open_episode_net_mtm_wan": 4.806526379358804,
+    "net_wan": 65.50072573175474,
+    "closed_episode_net_wan": 68.16109163116803,
+    "open_episode_net_mtm_wan": -2.6603658994132884,
     "account_cash_audit": {
       "initial_a_usdt": 0.0,
       "initial_b_usdt": 10000000.0,
-      "ending_a_cash_usdt": 997390.6290243665,
-      "ending_b_wallet_usdt": 9696341.963513479,
-      "ending_b_unrealized_usdt": -60314.56821189909,
-      "ending_a_token_liability_mtm_usdt": 54621.41153445311,
+      "ending_a_cash_usdt": 1627558.9710676095,
+      "ending_b_wallet_usdt": 9538167.23975995,
+      "ending_b_unrealized_usdt": -276904.0489242447,
+      "ending_a_token_liability_mtm_usdt": 233814.90458574615,
       "cumulative_b_to_a_usdt": 0.0,
       "cumulative_a_to_b_usdt": 0.0,
       "min_a_cash_usdt": 0.0,
-      "min_b_wallet_usdt": 9696341.963513479,
+      "min_b_wallet_usdt": 9538167.23975995,
       "unfunded_cash_deficit_usdt": 0.0,
-      "min_hourly_b_equity_usdt": 9635303.268014254,
-      "min_hourly_b_equity_minus_1x_notional_usdt": 8538425.052717494,
-      "cash_pnl_identity_max_error_usdt": 6.170012056827545e-08,
+      "min_hourly_b_equity_usdt": 9258179.364370603,
+      "min_hourly_b_equity_minus_1x_notional_usdt": 7616208.709306256,
+      "cash_pnl_identity_max_error_usdt": 5.878973752260208e-08,
       "transfers": "as needed; immediate and zero-fee model; no external cash injection",
       "withdrawal_availability_verified": false,
       "liquidation_path_verified": false,
       "equity_valuation": "hour-end perpetual close proxy; no intrahour margin replay"
     },
-    "residual_spot_notional_usdt": 54621.41153445311,
+    "entry_fill_audit": {
+      "first_paired_fills": 102,
+      "add_paired_fills": 1277,
+      "adds_outside_recheck": 698,
+      "first_fills_outside_recheck": 0
+    },
+    "capital_usage": {
+      "avg_cost_usdt": 1603726.5306335005,
+      "peak_cost_usdt": 2641899.7850115616,
+      "avg_mtm_usdt": 1365954.7745262787,
+      "peak_mtm_usdt": 2668814.5278467746
+    },
+    "hourly_drawdown": {
+      "usdt": 245169.39437807538,
+      "pct_of_initial_capital": 2.4516939437807537
+    },
+    "residual_spot_notional_usdt": 233814.90458574615,
     "open_symbols": 1,
-    "fund_wan": 72.36720571045299,
-    "fees_wan": 0.9808267100539686,
-    "price_wan": -13.625693053188192,
-    "unrealized_pair_price_wan": 0.11897533194189236,
-    "cost_wan": 30.667290287388152,
-    "traded_wan": 1075.4288124276072,
+    "fund_wan": 92.89864044174104,
+    "fees_wan": 1.5884054216893833,
+    "price_wan": -26.232221988128238,
+    "unrealized_pair_price_wan": 0.4227126998313237,
+    "cost_wan": 50.852985185032225,
+    "traded_wan": 1740.6649183272336,
     "gap_wan": 0.0,
     "tiers": {
       "T1": {
@@ -224,65 +259,81 @@
       },
       "T2": {
         "n": 25,
-        "net_wan": -0.29612151373472045,
-        "hold_h": 111.6
+        "net_wan": -0.5731435702043103,
+        "hold_h": 121.96
       },
       "T3": {
         "n": 42,
-        "net_wan": 14.649735301482494,
-        "hold_h": 278.45238095238096
+        "net_wan": 29.88550108167767,
+        "hold_h": 327.1190476190476
       },
       "T4": {
         "n": 34,
-        "net_wan": 38.71952111204615,
-        "hold_h": 382.38235294117646
+        "net_wan": 38.84873411969468,
+        "hold_h": 416.1764705882353
       }
     }
   },
   "FY": {
     "ann": null,
-    "ann_mtm": 19.82543279792382,
+    "ann_mtm": 21.748067852966262,
     "partial_observation_pnl_only": false,
-    "period_return_on_10m_pct": 20.097014069128257,
+    "period_return_on_10m_pct": 22.045986590678133,
     "status": "open_inventory_liability",
     "capital_usdt": 10000000.0,
     "annualization_denominator_usdt": 10000000.0,
     "borrow_interest_usdt": 0.0,
-    "n": 311,
+    "n": 310,
     "H": 8880,
     "signal_hours": 8760,
     "tail_hours": 120,
-    "net_wan": 200.97014069128258,
-    "closed_episode_net_wan": 196.16361431192368,
-    "open_episode_net_mtm_wan": 4.806526379358885,
+    "net_wan": 220.45986590678132,
+    "closed_episode_net_wan": 223.1202318061932,
+    "open_episode_net_mtm_wan": -2.660365899411868,
     "account_cash_audit": {
       "initial_a_usdt": 0.0,
       "initial_b_usdt": 10000000.0,
-      "ending_a_cash_usdt": 3598238.505371467,
-      "ending_b_wallet_usdt": 8526398.881287843,
-      "ending_b_unrealized_usdt": -60314.56821189909,
-      "ending_a_token_liability_mtm_usdt": 54621.41153445311,
+      "ending_a_cash_usdt": 5449825.032012821,
+      "ending_b_wallet_usdt": 7265492.58056507,
+      "ending_b_unrealized_usdt": -276904.0489242447,
+      "ending_a_token_liability_mtm_usdt": 233814.90458574615,
       "cumulative_b_to_a_usdt": 0.0,
       "cumulative_a_to_b_usdt": 0.0,
       "min_a_cash_usdt": 0.0,
-      "min_b_wallet_usdt": 8526398.881287843,
+      "min_b_wallet_usdt": 7265492.58056507,
       "unfunded_cash_deficit_usdt": 0.0,
-      "min_hourly_b_equity_usdt": 8465360.185788618,
-      "min_hourly_b_equity_minus_1x_notional_usdt": 6377119.3374489965,
-      "cash_pnl_identity_max_error_usdt": 2.139713615179062e-07,
+      "min_hourly_b_equity_usdt": 6985504.705175723,
+      "min_hourly_b_equity_minus_1x_notional_usdt": 3706829.826150853,
+      "cash_pnl_identity_max_error_usdt": 1.6624107956886292e-07,
       "transfers": "as needed; immediate and zero-fee model; no external cash injection",
       "withdrawal_availability_verified": false,
       "liquidation_path_verified": false,
       "equity_valuation": "hour-end perpetual close proxy; no intrahour margin replay"
     },
-    "residual_spot_notional_usdt": 54621.41153445311,
+    "entry_fill_audit": {
+      "first_paired_fills": 311,
+      "add_paired_fills": 4311,
+      "adds_outside_recheck": 2495,
+      "first_fills_outside_recheck": 0
+    },
+    "capital_usage": {
+      "avg_cost_usdt": 2366392.392475557,
+      "peak_cost_usdt": 6341860.553417236,
+      "avg_mtm_usdt": 1894331.776216392,
+      "peak_mtm_usdt": 4963027.91586684
+    },
+    "hourly_drawdown": {
+      "usdt": 351255.19778576866,
+      "pct_of_initial_capital": 3.5125519778576866
+    },
+    "residual_spot_notional_usdt": 233814.90458574615,
     "open_symbols": 1,
-    "fund_wan": 253.2943330010349,
-    "fees_wan": 3.066551853382323,
-    "price_wan": -49.37661578831188,
-    "unrealized_pair_price_wan": 0.11897533194189236,
-    "cost_wan": 82.0102803384392,
-    "traded_wan": 3352.75442574522,
+    "fund_wan": 312.689620929448,
+    "fees_wan": 5.3164268560523675,
+    "price_wan": -87.33604086644563,
+    "unrealized_pair_price_wan": 0.4227126998313237,
+    "cost_wan": 141.70737219085518,
+    "traded_wan": 5811.106765536015,
     "gap_wan": 0.0,
     "tiers": {
       "T1": {
@@ -291,19 +342,19 @@
         "hold_h": 0.0
       },
       "T2": {
-        "n": 116,
-        "net_wan": 16.077774204301484,
-        "hold_h": 217.29310344827587
+        "n": 115,
+        "net_wan": 15.529261979448556,
+        "hold_h": 233.24347826086955
       },
       "T3": {
         "n": 112,
-        "net_wan": 53.06582421491857,
-        "hold_h": 410.86607142857144
+        "net_wan": 104.73425718025356,
+        "hold_h": 449.1875
       },
       "T4": {
         "n": 83,
-        "net_wan": 127.02001589270363,
-        "hold_h": 526.566265060241
+        "net_wan": 102.85671264649112,
+        "hold_h": 565.4096385542168
       }
     }
   },
@@ -362,13 +413,13 @@
   },
   "publication": {
     "prepared_date": "2026-11-06",
-    "scope": "aggregate research results only",
-    "redactions": [
-      "local output path replaced with result.json",
-      "private inventory hash omitted"
-    ],
+    "version": "v2.1",
+    "scope": "aggregate model results only",
     "private_input_data_included": false,
-    "original_schema_preserved": true,
-    "historical_replay_requires_private_inputs": true
+    "historical_replay_requires_private_inputs": true,
+    "redactions": [
+      "local output path",
+      "private inventory hash"
+    ]
   }
 }

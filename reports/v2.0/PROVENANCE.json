@@ -1,0 +1,106 @@
+{
+  "prepared_date": "2026-11-06",
+  "upstream_repository": "https://github.com/leslieshen1/neg-funding-strategy-v1",
+  "upstream_base_commit": "acf38107db21ee5379b85ce1bca5a84394fb5171",
+  "source_note": "Export of the fixed working tree, including fixes after upstream base commit; clean v2 history",
+  "historical_run_runtime": {
+    "python": "3.12.13",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1",
+    "numba": "0.68.1"
+  },
+  "historical_run_checks": {
+    "windows": {
+      "IS": {
+        "account_identity": true,
+        "component_identity": true,
+        "annualization_identity": true,
+        "closed_vs_open_identity": true,
+        "residual_status_correct": true,
+        "net_mtm_usdt": 1419542.0518239054,
+        "completed_unwind_annualized_pct": 20.479559245680846,
+        "mtm_annualized_pct": 20.479559245680846,
+        "hours": 6072
+      },
+      "HO": {
+        "account_identity": true,
+        "component_identity": true,
+        "annualization_identity": true,
+        "closed_vs_open_identity": true,
+        "residual_status_correct": true,
+        "net_mtm_usdt": 578796.6127915273,
+        "completed_unwind_annualized_pct": null,
+        "mtm_annualized_pct": 17.03715836039576,
+        "hours": 2976
+      },
+      "FY": {
+        "account_identity": true,
+        "component_identity": true,
+        "annualization_identity": true,
+        "closed_vs_open_identity": true,
+        "residual_status_correct": true,
+        "net_mtm_usdt": 2009701.4069128258,
+        "completed_unwind_annualized_pct": null,
+        "mtm_annualized_pct": 19.82543279792382,
+        "hours": 8880
+      }
+    },
+    "tests_passed": 43,
+    "git_diff_check": true,
+    "input_hashes_match": true,
+    "hourly_csv_cash_identity": true,
+    "residual_exit_budget_reconciles": true
+  },
+  "market_input_sha256": {
+    "ds/dataset.npz": "c54ff4e2cd6f5777e0d0acc889e1af1da16778f1c16b11e1155189e8c35868d5",
+    "ds/dataset_meta.csv": "ee29a50f3e013f13a23be33722c1f980b75301bffa4b53d063f86fd76bc83a0e",
+    "calib/ag.csv": "422e8a580ce8b1b20a1ff1fb8d822035f1bbb47b125d03e7da65d89dae7580f2",
+    "calib/bd.csv": "8486f652774cca25d1612807dd738d37db1370966d01bb7a1ca4799d32121f37"
+  },
+  "historical_run_source_sha256": {
+    "repro/calib/calib_dl.py": "53b204799d39e77af690bafc849167f058076869a4cedcbc0947109c00455bc8",
+    "repro/lib/adl_signals.py": "dcd0ef2c20e5ac92b310da44c0b88d08685f0c00acbb0021003e915dbc75ba6f",
+    "repro/lib/config.py": "ff1347b12dabc4235b15bab5634629caf6758f35c7dd015db0dcc871d1085920",
+    "repro/lib/engine.py": "bace2a66590f63c9c11fa80df1e5c4d3fa47800eb02d9a9a8286edeee9ab078d",
+    "repro/lib/engine_v12s.py": "d22fecac065fdee82b709e9a245b29270f43451ffe2b5f6d7e8d4d3b3f78500d",
+    "repro/lib/entry_policy.py": "829c1d4b3cfab93178a3d2b1bfe55169e827de46086eab28a3323d88047534b2",
+    "repro/lib/inputs.py": "79e1a6cb6a329586e78ecbda6e1a2fb2dd516f5949791206b1379b727e6dc5ab",
+    "repro/lib/inventory.py": "2077cf3dacd1e80fb2c9287a130cd96717c41fb8fe69332dea8eca495c9cc62a",
+    "repro/lib/lib12s.py": "eba0274dc38c13ccffa07a68a9df1207ef967864e3c28e2a6c6fa2252bda73dc",
+    "repro/lib/r10_run.py": "809a27f134afc205aa8fab9bd44dffcc8ad24ec0caafaa823aaebca8bad51c06",
+    "repro/lib/r7_lib.py": "9c38606336fb92751e8e6272880bd351bf649cb83427813650c2c5b17f2cfcd5",
+    "repro/lib/r9_run.py": "32a026eb5433fbe0f7151104718c1765be7c8977cb14692cf2432d4250c6d57f",
+    "repro/lib/rules.py": "b338a59123441d7dd403482a3e9f6dadd0882715b91b86c5f38508a3aa38ffe5",
+    "repro/lib/run_adapt.py": "0d364c4b64c2a76db9386b3d08d19f779ed6d3e095d096b2044b6782fbfeae60",
+    "repro/lib/run_backtest.py": "4cf3b96a43a7b0cfc1a51f95527f313e1947a88778b272a2279a51f06e719548",
+    "repro/lib/run_r7.py": "0bf10166fa4a331736edbfdf0f1302706db33c455e5bb22f1112ae835acde66b",
+    "repro/lib/run_signals.py": "ca17f3aba24d5d75bd72c92dfa3954d90ac5de8b416c7eae895e1fe1d9a5cfcd",
+    "repro/lib/v10lib.py": "ade2a35006d77e2378720c6f28bd116842ccf50d734fa2a34bc167132f6aa102",
+    "repro/lib/v13lib.py": "5ca7f316230efaa369641e97c430fa123fc782eb2016840f35647a06aba4b40f",
+    "repro/prepare_inventory.py": "965d38b457107709f88db7ff32a0c87a9a790d4fb6792203baa7f18857b46374",
+    "repro/run_headline.py": "4da879e1af263ea394104520978a21cd1816490894aa681036637e9463cd8cea",
+    "requirements.txt": "c1c4efbbe2d213d0cec3f19ae1d072c43e9030e22a6acd6ad6479254d99d0614",
+    "tests/test_cli.py": "66d2acce35c7db6fe24675d244d0d7859225c4535e6ac50963098b786b0476d5",
+    "tests/test_entry_policy.py": "60071fb56ff80b05d9e8d22eaab0c8e40f16fddd3bd6fa358c121be04d38ba36",
+    "tests/test_settled_strategy.py": "f5be256e93cc297081f20db51bf38d98a61304cadd5f93f0505fe4ebec434124",
+    "tests/test_two_accounts.py": "76470f775de4c546efeec838525088a49d34f71bb062915d8a8b0b854c0b1ecc"
+  },
+  "data_release": "private inventory, raw market data, per-symbol trades and account curves excluded",
+  "reproduction_limit": "Unit/CLI synthetic tests run without private data. Exact historical replay needs private inventory and matching market inputs.",
+  "v2_export_validation": {
+    "checked_at_utc": "2026-11-06T11:22:35.847840+00:00",
+    "command": "python -m unittest discover -s tests -v",
+    "tests_passed": 43,
+    "test_duration_seconds": 65.115,
+    "runtime": {
+      "python": "3.12.13",
+      "numpy": "2.5.4",
+      "pandas": "3.1.1",
+      "numba": "0.68.1"
+    },
+    "historical_replay_python_sources_unchanged": true,
+    "all_three_public_windows_reconciled": true,
+    "local_markdown_links_resolve": true,
+    "private_inputs_or_git_history_exported": false
+  }
+}

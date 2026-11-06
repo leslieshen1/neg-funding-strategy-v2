@@ -1,0 +1,258 @@
+{
+  "schema_version": 6,
+  "args": {
+    "fee": "vip3",
+    "exec": "taker",
+    "fill": 0.5,
+    "adv": 0.5,
+    "entry_tiers": "T1,T2,T3,T4",
+    "json": "result.json",
+    "windows": "FY",
+    "tail_hours": 168,
+    "add_timing": "recheck",
+    "entry_snapshots": null,
+    "signal_source": "settled",
+    "signal_coverage": "continuous",
+    "adv_mode": "range",
+    "hedge": "taker",
+    "gap": "off"
+  },
+  "inputs": {
+    "dataset_hours": 9528,
+    "dataset_symbols": 315,
+    "inventory_symbols": 464,
+    "positive_inventory_symbols": 459,
+    "covered_inventory_symbols": 315,
+    "uncovered_inventory_symbols": 144,
+    "quantity_unit": "raw_token",
+    "inventory_history": "static snapshot assumed available throughout; not historical proof",
+    "sha256": {
+      "ds/dataset.npz": "c54ff4e2cd6f5777e0d0acc889e1af1da16778f1c16b11e1155189e8c35868d5",
+      "ds/dataset_meta.csv": "ee29a50f3e013f13a23be33722c1f980b75301bffa4b53d063f86fd76bc83a0e",
+      "calib/ag.csv": "422e8a580ce8b1b20a1ff1fb8d822035f1bbb47b125d03e7da65d89dae7580f2",
+      "calib/bd.csv": "8486f652774cca25d1612807dd738d37db1370966d01bb7a1ca4799d32121f37"
+    }
+  },
+  "entry_policy": {
+    "name": "latest_settled_strict_below_minus_0.1pct_8h_at_T_minus_1h",
+    "signal_source": "settled",
+    "reconstructed_forecasts": false,
+    "threshold_r8": -0.001,
+    "comparator": "<",
+    "recheck_before_hours": 1,
+    "applies_to": [
+      "entry",
+      "add"
+    ],
+    "add_timing": "recheck",
+    "exit_restricted_to_recheck": false,
+    "add_rule": "T-1h recheck only",
+    "income_training_sample_scope": "T-1h recheck hours; frozen across add-timing comparison",
+    "interval_universe": "all observed intervals including 1h, 4h, 8h",
+    "schedule_model": "last settled interval persists; no future settlement lookup",
+    "historical_announced_schedule_available": false,
+    "first_signal_action": "arm only; no immediate entry",
+    "recheck_quotes": 39218,
+    "below_threshold_quotes": 109449,
+    "extra_adl_filter": false,
+    "expected_exit_confirmation_hours": 1
+  },
+  "exit_policy": {
+    "signal": "raw market settled funding sum over hours t-23..t > 0",
+    "includes_pre_entry_settlements": true,
+    "normalise_to_8h": false,
+    "confirmation_hours": 1,
+    "locked_until_flat": true,
+    "entry_failure_action": "stop adds; retain existing hedge",
+    "automatic_volume_oi_trims": false,
+    "administrative_exceptions": [
+      "terminal wind-down"
+    ],
+    "delivery_handling": "fail if still open; no fabricated token repurchase"
+  },
+  "account_model": {
+    "inventory": "borrowed raw tokens; return same token quantity",
+    "borrow_interest": 0,
+    "inventory_history_assumption": "user-provided raw-token quantities available throughout replay",
+    "strategy_capital_usdt": 10000000.0,
+    "annualization_denominator_usdt": 10000000.0,
+    "inventory_value_added_to_denominator": false,
+    "leverage": 1.0,
+    "leverage_basis": "fixed entry notional budget; internal transfers do not expand it",
+    "initial_notional_budget_usdt": 10000000.0,
+    "spot_sale_proceeds_available_to_b": true,
+    "mutual_transfers_allowed": true,
+    "transfer_assumption": "as needed, immediate, zero fee; withdrawal limits unverified",
+    "pnl_recycling": false,
+    "separate_account_cash_paths_verified": false,
+    "hourly_cash_paths_audited": true,
+    "margin_path": "hourly account cash/equity and transfers; intrahour margin, liquidation and withdrawal limits not replayed"
+  },
+  "fee_model": {
+    "tier": "vip3",
+    "rates": {
+      "fee_s": 0.0006,
+      "fee_s_mk": 0.0004,
+      "fee_f": 0.00032,
+      "fee_f_mk": 0.00012
+    },
+    "bnb_discount": false,
+    "historical_schedule": "fixed user-selected scenario",
+    "expected_income_roundtrip_fee": 0.00184
+  },
+  "signal_coverage": "continuous",
+  "research_status": "settled_signal_modelled_schedule_and_execution",
+  "execution_model": {
+    "status": "simulated",
+    "historical_l2_required": false,
+    "calibration": "volume/depth proxy and declared impact assumptions; not private fills"
+  },
+  "FY": {
+    "ann": null,
+    "ann_mtm": 19.82543279792382,
+    "partial_observation_pnl_only": false,
+    "period_return_on_10m_pct": 20.097014069128257,
+    "status": "open_inventory_liability",
+    "capital_usdt": 10000000.0,
+    "annualization_denominator_usdt": 10000000.0,
+    "borrow_interest_usdt": 0.0,
+    "n": 311,
+    "H": 8880,
+    "signal_hours": 8760,
+    "tail_hours": 120,
+    "net_wan": 200.97014069128258,
+    "closed_episode_net_wan": 196.16361431192368,
+    "open_episode_net_mtm_wan": 4.806526379358885,
+    "account_cash_audit": {
+      "initial_a_usdt": 0.0,
+      "initial_b_usdt": 10000000.0,
+      "ending_a_cash_usdt": 3598238.505371467,
+      "ending_b_wallet_usdt": 8526398.881287843,
+      "ending_b_unrealized_usdt": -60314.56821189909,
+      "ending_a_token_liability_mtm_usdt": 54621.41153445311,
+      "cumulative_b_to_a_usdt": 0.0,
+      "cumulative_a_to_b_usdt": 0.0,
+      "min_a_cash_usdt": 0.0,
+      "min_b_wallet_usdt": 8526398.881287843,
+      "unfunded_cash_deficit_usdt": 0.0,
+      "min_hourly_b_equity_usdt": 8465360.185788618,
+      "min_hourly_b_equity_minus_1x_notional_usdt": 6377119.3374489965,
+      "cash_pnl_identity_max_error_usdt": 2.139713615179062e-07,
+      "transfers": "as needed; immediate and zero-fee model; no external cash injection",
+      "withdrawal_availability_verified": false,
+      "liquidation_path_verified": false,
+      "equity_valuation": "hour-end perpetual close proxy; no intrahour margin replay"
+    },
+    "entry_fill_audit": {
+      "first_paired_fills": 312,
+      "add_paired_fills": 2253,
+      "adds_outside_recheck": 0,
+      "first_fills_outside_recheck": 0
+    },
+    "capital_usage": {
+      "avg_cost_usdt": 1476712.6393139618,
+      "peak_cost_usdt": 3800237.2478206097,
+      "avg_mtm_usdt": 1162564.3434560574,
+      "peak_mtm_usdt": 2905822.7488908106
+    },
+    "hourly_drawdown": {
+      "usdt": 117196.99876737036,
+      "pct_of_initial_capital": 1.1719699876737035
+    },
+    "residual_spot_notional_usdt": 54621.41153445311,
+    "open_symbols": 1,
+    "fund_wan": 253.2943330010349,
+    "fees_wan": 3.066551853382323,
+    "price_wan": -49.37661578831188,
+    "unrealized_pair_price_wan": 0.11897533194189236,
+    "cost_wan": 82.0102803384392,
+    "traded_wan": 3352.75442574522,
+    "gap_wan": 0.0,
+    "tiers": {
+      "T1": {
+        "n": 0,
+        "net_wan": 0.0,
+        "hold_h": 0.0
+      },
+      "T2": {
+        "n": 116,
+        "net_wan": 16.077774204301484,
+        "hold_h": 217.29310344827587
+      },
+      "T3": {
+        "n": 112,
+        "net_wan": 53.06582421491857,
+        "hold_h": 410.86607142857144
+      },
+      "T4": {
+        "n": 83,
+        "net_wan": 127.02001589270363,
+        "hold_h": 526.566265060241
+      }
+    }
+  },
+  "engine_params": {
+    "exec_mode": 0.0,
+    "spread_mult": 1.0,
+    "slip_mode": 0.0,
+    "pov": 0.03,
+    "xmax": 0.02,
+    "dfrac": 0.75,
+    "vol_frac": 0.1,
+    "add_n": 1.0,
+    "wait_max_n": 0.0,
+    "wait_cap": 0.003,
+    "f_exitlag": 1.0,
+    "f_markfund": 1.0,
+    "f_coin": 2.0,
+    "f_budget": 1.0,
+    "f_prior": 1.0,
+    "f_hardcap": 1.0,
+    "f_exitpov": 1.0,
+    "f_addonce": 0.0,
+    "f_exitstate": 1.0,
+    "f_mtmcap": 1.0,
+    "f_mtmderisk": 0.0,
+    "max_adds": 1.0,
+    "impact": 0.003,
+    "entry_basis_n": -0.003,
+    "k_imp": 4.0,
+    "derisk_force": 2.0,
+    "entry_fav_n": 0.001,
+    "xmode": 5.0,
+    "exit_fav_n": -1000000000.0,
+    "x_obs": 1.0,
+    "conf_h": 1.0,
+    "fx_fund": 2.0,
+    "res_mode": 3.0,
+    "fx_eq": 0.0,
+    "derisk": 0.0,
+    "fill_cap": 1.0,
+    "tiered_exec": 0.0,
+    "sqrt_y": 1.0,
+    "cutb_sqrt": 1.0,
+    "use_xa": 1.0,
+    "mkm": 0.0,
+    "pen": 0.002,
+    "pen_k": 0.0,
+    "fshare": 1.0,
+    "advw": 1.0,
+    "advmode": 1.0,
+    "fee_s": 0.0006,
+    "fee_s_mk": 0.0004,
+    "fee_f": 0.00032,
+    "fee_f_mk": 0.00012,
+    "trade_end": 9408.0
+  },
+  "publication": {
+    "prepared_date": "2026-11-06",
+    "version": "v2.0 timing reproduced with v2.1 code",
+    "scope": "aggregate model results only",
+    "private_input_data_included": false,
+    "historical_replay_requires_private_inputs": true,
+    "redactions": [
+      "local output path",
+      "private inventory hash"
+    ]
+  }
+}

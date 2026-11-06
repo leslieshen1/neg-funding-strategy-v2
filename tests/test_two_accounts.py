@@ -18,7 +18,7 @@ from run_backtest import Data
 def replay(qty=10., dry_from=None, pre=False, impact=0., obs=0., volumes=None,
            events=None, rates=None, intervals=None, start=0, end=12,
            entry_rates=None, allowed=None, missing_price_hours=(), price_increase_from=None,
-           account_transfers=False, **overrides):
+           account_transfers=False, first_entry_mask=None, **overrides):
     T, N = 16, 1
     if rates is not None: N = np.asarray(rates).shape[1]
     a = lambda x: np.full((T, N), x, dtype=float)
@@ -56,7 +56,7 @@ def replay(qty=10., dry_from=None, pre=False, impact=0., obs=0., volumes=None,
         a(10000), ivh, a(.01), a(1), E.mkp(**kw), used, cum, ep, comp, diag, pos,
         sv, sv*1.02, sv*.98, fv, fv*1.02, fv*.98, z, z, v*1e9,
         v*delivery,
-        xd, np.cumsum(ev, axis=0), a(1), np.ones((3, T, N)), v, entry_rates, accounts, account_transfers)
+        xd, np.cumsum(ev, axis=0), a(1), np.ones((3, T, N)), v, entry_rates, accounts, account_transfers, first_entry_mask)
     return dict(ep=ep[:int(res[:, 6].sum())], res=res, diag=diag, pos=pos,
                 cum=cum, used=used, xd=xd, comp=comp, accounts=accounts)
 

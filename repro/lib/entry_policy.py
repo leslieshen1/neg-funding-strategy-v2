@@ -18,13 +18,15 @@ class EntryPolicy:
     metadata: dict
 
 
-def settled_entry_policy(ev, ivh):
+def settled_entry_policy(ev, ivh, add_timing='qualified'):
     """Use only settlements already observed, including zero-rate events.
 
     Historical next-settlement announcements are unavailable. The next time is
     modelled as last settlement + its interval, never by looking at future events.
     This approximation can miss a newly announced change of settlement interval.
     """
+    if add_timing not in ('qualified', 'recheck'):
+        raise ValueError('add_timing must be qualified or recheck')
     ev = np.asarray(ev, dtype=float); ivh = np.asarray(ivh, dtype=float)
     if ev.ndim != 2 or ev.shape != ivh.shape:
         raise ValueError('settled rates and explicit event intervals must have the same 2D shape')
@@ -53,7 +55,10 @@ def settled_entry_policy(ev, ivh):
     metadata = dict(name='latest_settled_strict_below_minus_0.1pct_8h_at_T_minus_1h',
                     signal_source='settled', reconstructed_forecasts=False,
                     threshold_r8=-ENTRY_THRESHOLD_R8, comparator='<', recheck_before_hours=1,
-                    applies_to=['entry', 'add'], exit_restricted_to_recheck=False,
+                    applies_to=['entry'] if add_timing == 'qualified' else ['entry', 'add'],
+                    add_timing=add_timing, exit_restricted_to_recheck=False,
+                    add_rule='any qualified hour while held' if add_timing == 'qualified' else 'T-1h recheck only',
+                    income_training_sample_scope='T-1h recheck hours; frozen across add-timing comparison',
                     interval_universe='all observed intervals including 1h, 4h, 8h',
                     schedule_model='last settled interval persists; no future settlement lookup',
                     historical_announced_schedule_available=False,

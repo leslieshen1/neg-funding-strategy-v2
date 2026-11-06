@@ -1,72 +1,43 @@
 {
-  "prepared_date": "2026-11-06",
-  "upstream_repository": "https://github.com/leslieshen1/neg-funding-strategy-v1",
-  "upstream_base_commit": "acf38107db21ee5379b85ce1bca5a84394fb5171",
-  "source_note": "Export of the fixed working tree, including fixes after upstream base commit; clean v2 history",
-  "historical_run_runtime": {
+  "version": "v2.1",
+  "created_at_utc": "2026-11-06T11:36:37.532165+00:00",
+  "base_commit": "2e97d4002a55ff7fdb99bd3b7ddd1714fa436836",
+  "change": "Only new hedges from flat require T-1h; held hedges can add each qualified hour",
+  "runtime": {
     "python": "3.12.13",
     "numpy": "2.5.4",
     "pandas": "3.1.1",
     "numba": "0.68.1"
   },
-  "historical_run_checks": {
-    "windows": {
-      "IS": {
-        "account_identity": true,
-        "component_identity": true,
-        "annualization_identity": true,
-        "closed_vs_open_identity": true,
-        "residual_status_correct": true,
-        "net_mtm_usdt": 1419542.0518239054,
-        "completed_unwind_annualized_pct": 20.479559245680846,
-        "mtm_annualized_pct": 20.479559245680846,
-        "hours": 6072
-      },
-      "HO": {
-        "account_identity": true,
-        "component_identity": true,
-        "annualization_identity": true,
-        "closed_vs_open_identity": true,
-        "residual_status_correct": true,
-        "net_mtm_usdt": 578796.6127915273,
-        "completed_unwind_annualized_pct": null,
-        "mtm_annualized_pct": 17.03715836039576,
-        "hours": 2976
-      },
-      "FY": {
-        "account_identity": true,
-        "component_identity": true,
-        "annualization_identity": true,
-        "closed_vs_open_identity": true,
-        "residual_status_correct": true,
-        "net_mtm_usdt": 2009701.4069128258,
-        "completed_unwind_annualized_pct": null,
-        "mtm_annualized_pct": 19.82543279792382,
-        "hours": 8880
-      }
-    },
-    "tests_passed": 43,
-    "git_diff_check": true,
-    "input_hashes_match": true,
-    "hourly_csv_cash_identity": true,
-    "residual_exit_budget_reconciles": true
-  },
-  "market_input_sha256": {
+  "input_sha256": {
     "ds/dataset.npz": "c54ff4e2cd6f5777e0d0acc889e1af1da16778f1c16b11e1155189e8c35868d5",
     "ds/dataset_meta.csv": "ee29a50f3e013f13a23be33722c1f980b75301bffa4b53d063f86fd76bc83a0e",
     "calib/ag.csv": "422e8a580ce8b1b20a1ff1fb8d822035f1bbb47b125d03e7da65d89dae7580f2",
     "calib/bd.csv": "8486f652774cca25d1612807dd738d37db1370966d01bb7a1ca4799d32121f37"
   },
-  "historical_run_source_sha256": {
+  "checks": {
+    "input_hashes_identical": true,
+    "all_engine_parameters_identical": true,
+    "income_training_mask_identical": true,
+    "income_tables_identical": true,
+    "full_income_cost_gate_identical": true,
+    "execution_calibration_arrays_identical": true,
+    "original_v2_0_FY_fields_reproduced_exactly": true,
+    "original_model_parameters_unchanged": true,
+    "only_behavior_change": "held positions can add outside T-1h if all conditions pass",
+    "first_fills_outside_recheck": 0,
+    "tests_passed": 46
+  },
+  "source_sha256": {
     "repro/calib/calib_dl.py": "53b204799d39e77af690bafc849167f058076869a4cedcbc0947109c00455bc8",
     "repro/lib/adl_signals.py": "dcd0ef2c20e5ac92b310da44c0b88d08685f0c00acbb0021003e915dbc75ba6f",
     "repro/lib/config.py": "ff1347b12dabc4235b15bab5634629caf6758f35c7dd015db0dcc871d1085920",
     "repro/lib/engine.py": "bace2a66590f63c9c11fa80df1e5c4d3fa47800eb02d9a9a8286edeee9ab078d",
-    "repro/lib/engine_v12s.py": "d22fecac065fdee82b709e9a245b29270f43451ffe2b5f6d7e8d4d3b3f78500d",
-    "repro/lib/entry_policy.py": "829c1d4b3cfab93178a3d2b1bfe55169e827de46086eab28a3323d88047534b2",
+    "repro/lib/engine_v12s.py": "18317364a5b031acb4c53c2a47ad7fb794269f0bd2d684639f6db9fea0989077",
+    "repro/lib/entry_policy.py": "f520036e0af0c782a4b35754e61225cfa297bd5c1b110135b211d0bd5dd152d5",
     "repro/lib/inputs.py": "79e1a6cb6a329586e78ecbda6e1a2fb2dd516f5949791206b1379b727e6dc5ab",
     "repro/lib/inventory.py": "2077cf3dacd1e80fb2c9287a130cd96717c41fb8fe69332dea8eca495c9cc62a",
-    "repro/lib/lib12s.py": "eba0274dc38c13ccffa07a68a9df1207ef967864e3c28e2a6c6fa2252bda73dc",
+    "repro/lib/lib12s.py": "25c5e278113c7e8e67694752f514bb4c89880db86b58d1133e59d48af19fa06b",
     "repro/lib/r10_run.py": "809a27f134afc205aa8fab9bd44dffcc8ad24ec0caafaa823aaebca8bad51c06",
     "repro/lib/r7_lib.py": "9c38606336fb92751e8e6272880bd351bf649cb83427813650c2c5b17f2cfcd5",
     "repro/lib/r9_run.py": "32a026eb5433fbe0f7151104718c1765be7c8977cb14692cf2432d4250c6d57f",
@@ -78,29 +49,21 @@
     "repro/lib/v10lib.py": "ade2a35006d77e2378720c6f28bd116842ccf50d734fa2a34bc167132f6aa102",
     "repro/lib/v13lib.py": "5ca7f316230efaa369641e97c430fa123fc782eb2016840f35647a06aba4b40f",
     "repro/prepare_inventory.py": "965d38b457107709f88db7ff32a0c87a9a790d4fb6792203baa7f18857b46374",
-    "repro/run_headline.py": "4da879e1af263ea394104520978a21cd1816490894aa681036637e9463cd8cea",
+    "repro/run_headline.py": "c1d41453c0ce7fcbffe99759812b4f4a8c75b090d2c95803c5834175aa08dae6",
     "requirements.txt": "c1c4efbbe2d213d0cec3f19ae1d072c43e9030e22a6acd6ad6479254d99d0614",
-    "tests/test_cli.py": "66d2acce35c7db6fe24675d244d0d7859225c4535e6ac50963098b786b0476d5",
+    "tests/test_cli.py": "b7ff89943e0876be74c0f9f6f22c3aec5d79574d377e8721232de52badbc7d1d",
     "tests/test_entry_policy.py": "60071fb56ff80b05d9e8d22eaab0c8e40f16fddd3bd6fa358c121be04d38ba36",
-    "tests/test_settled_strategy.py": "f5be256e93cc297081f20db51bf38d98a61304cadd5f93f0505fe4ebec434124",
-    "tests/test_two_accounts.py": "76470f775de4c546efeec838525088a49d34f71bb062915d8a8b0b854c0b1ecc"
+    "tests/test_settled_strategy.py": "623f4d6a8bfe1a2c97785890cf308ce1703ac9623886ae7d09d399e0b90559c0",
+    "tests/test_two_accounts.py": "748beb99666ca25343db04bce9de38c314aec0e53b98106cae432603368d030f"
   },
-  "data_release": "private inventory, raw market data, per-symbol trades and account curves excluded",
-  "reproduction_limit": "Unit/CLI synthetic tests run without private data. Exact historical replay needs private inventory and matching market inputs.",
-  "v2_export_validation": {
-    "checked_at_utc": "2026-11-06T11:22:35.847840+00:00",
-    "command": "python -m unittest discover -s tests -v",
-    "tests_passed": 43,
-    "test_duration_seconds": 65.115,
-    "runtime": {
-      "python": "3.12.13",
-      "numpy": "2.5.4",
-      "pandas": "3.1.1",
-      "numba": "0.68.1"
-    },
-    "historical_replay_python_sources_unchanged": true,
-    "all_three_public_windows_reconciled": true,
-    "local_markdown_links_resolve": true,
-    "private_inputs_or_git_history_exported": false
-  }
+  "artifact_sha256": {
+    "reports/SETTLED_RULE_REPORT.md": "b86ea8092aed177c9a3c5b07c3d14c13e3ed34c50f6ba8405edebd44b13e93df",
+    "reports/V1_V2_COMPARISON.md": "ff02ee29460fd65f5db00e7df3aaa79196a98901b9349a6a3dfb7a14006119c0",
+    "reports/VALIDATION.md": "2ea8750f713c8bf4c5329553d4c40809399ec1c27c405ce18e52d93ddd9222be",
+    "reports/add_timing_comparison.json": "766aa744b39d0e95f6b14ee5767810f1d456268ba5008573f2449f7aeaec606b",
+    "reports/add_timing_recheck_replay.json": "8c1abb329e15b67a09f837bf4e5521f13eab78012607deb8c2a684263544492d",
+    "reports/settled_rule_diagnostics.json": "e5b7fbaf9b6d3c8d1e3666d9e9732db7f18ff2350e2e3d674c018f2bcf5635ac",
+    "reports/settled_rule_replay.json": "77e918082d3c32101f4bd46dc0937467452167f742d984fbaaff6488cc8cc03e"
+  },
+  "public_scope": "No private inventory, private inventory hash, raw market data, coin quantities, per-symbol trades or local paths."
 }

@@ -237,7 +237,7 @@ def rebalance_cash(a_cash, b_wallet):
 @njit(cache=False)
 def sim(t0, t1, sv, sc, sq, fv, fc, fq, ev, r8, r8s, d02, d1, dv, oilim, hs_s, hs_f, r2, r5, ok_n, ok_m, cap_n, cap_m,
         mk, cap_q, oiv, ivh, sg, streak, P, out_used, out_cum, ep_buf, out_comp, diag, pos_rec,
-        so, sh, sl, fo, fh, fl, tk_s, tk_f, dl_exit, dl_fin, xd, s24, prof, xa, fsm, entry_r8=None, account_rec=None, account_transfers=False):
+        so, sh, sl, fo, fh, fl, tk_s, tk_f, dl_exit, dl_fin, xd, s24, prof, xa, fsm, entry_r8=None, account_rec=None, account_transfers=False, first_entry_mask=None):
     """xd (float64[64]) v11 counters: 0-4 candidate hours whose BINDING room is [inventory, OI, volume, pov, capital] | 5-9 notional unlocked if that binding constraint were removed (up to the next constraint) | 10-14 filled notional in those hours | 15 candidate hours | 16 filled notional (all)
     20-23 held coin-hours at >=98% of [inventory, OI, volume] / none | 25-28 notional-weighted | 29 total held notional-hours | 30 maker attempts | 31 maker attempts with an eligible leg | 32 pair notional filled with a maker leg | 33 notional deferred to next-hour taker
     34 next-hour-taker fills | 35 leg-gap cost (USDT) | 36 adverse-selection cost | 37 hedge-at-extreme extra cost vs normal taker price | 38 maker-filled notional (entry) | 39 maker-filled notional (exit)
@@ -639,6 +639,10 @@ def sim(t0, t1, sv, sc, sq, fv, fc, fq, ev, r8, r8s, d02, d1, dv, oilim, hs_s, h
                     if np.isfinite(rs) and rs > entry_fav_m and r > 0 and b >= entry_basis_m:
                         s_new = -1.0; fav = 1000.0 + rs   # neg leg has priority regardless of rate size
                 if s_new == 0.0: continue
+                # Only a new hedge from flat waits for the pre-settlement check.
+                # Existing hedges can add whenever the rate/basis/income gate passes.
+                if s_new > 0 and pos[n] <= 0 and first_entry_mask is not None:
+                    if not first_entry_mask[t, n]: continue
                 if s_new > 0 and pos[n] <= 0 and n_streak > 1.5 and dv[t, n] >= big_thr and streak[t, n] < n_streak: continue   # v10: big coins need N consecutive entry-grade prints
                 if s_new > 0: fav = 2000.0 + fav        # neg leg first
                 if pos[n] > 0:
@@ -791,6 +795,9 @@ def sim(t0, t1, sv, sc, sq, fv, fc, fq, ev, r8, r8s, d02, d1, dv, oilim, hs_s, h
                     if spot_trade:
                         fees += x * sp_e * fs_; cost += x * spot_mid * cs
                     if pos[n] == 0:
+                        if s > 0 and first_entry_mask is not None:
+                            diag[25] += 1
+                            if first_entry_mask is not None and not first_entry_mask[t, n]: diag[28] += 1
                         episode_mode[n] = mode
                         side[n] = s; sp_avg[n] = sp_e; fp_avg[n] = fp_e; ep_start[n] = t; ent_notional[n] = Q
                         fund_acc[n] = 0.0; ep_price[n] = 0.0; ep_max_u[n] = 0.0; wait[n] = 0; wait_h[n] = 0; wait_paid[n] = 0.0
@@ -798,6 +805,9 @@ def sim(t0, t1, sv, sc, sq, fv, fc, fq, ev, r8, r8s, d02, d1, dv, oilim, hs_s, h
                         for k_ in range(24): ring[n, k_] = 0.0
                         capf[n] = cm; fees_ep[n] = 0.0; cost_ep[n] = 0.0; lf_ep[n] = 0.0; nfill_ep[n] = 0.0; n_adds[n] = 0.0
                     else:
+                        if s > 0 and first_entry_mask is not None:
+                            diag[26] += 1
+                            if first_entry_mask is not None and not first_entry_mask[t, n]: diag[27] += 1
                         tw = pos[n] + x
                         sp_avg[n] = (sp_avg[n] * pos[n] + sp_e * x) / tw
                         fp_avg[n] = (fp_avg[n] * pos[n] + fp_e * x) / tw

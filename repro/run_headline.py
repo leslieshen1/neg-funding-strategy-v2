@@ -7,6 +7,8 @@ ap.add_argument("--fill", type=float, default=0.5); ap.add_argument("--adv", typ
 ap.add_argument("--entry-tiers", default="T1,T2,T3,T4"); ap.add_argument("--json", default=None)
 ap.add_argument("--windows", default="IS,HO,FY")
 ap.add_argument("--tail-hours", type=int, default=168, help="Use available future bars for actual unwind; never synthesise missing bars")
+ap.add_argument("--add-timing", choices=["qualified", "recheck"], default=None,
+                help="Settled default: qualified adds each hour; recheck reproduces v2.0's T-1h-only adds")
 ap.add_argument("--entry-snapshots", default=None, help="Only for explicitly selected forecast research variants")
 ap.add_argument("--signal-source", default="settled", choices=["settled", "archived", "reconstructed"],
                 help="Default: latest already-settled rate; forecast variants change the strategy")
@@ -14,6 +16,9 @@ ap.add_argument("--signal-coverage", default="continuous", choices=["continuous"
                 help="Sampled signals produce partial-observation PnL only; annualisation is disabled")
 ap.add_argument("--adv-mode", default="range", choices=["range", "nextclose", "basis"]); ap.add_argument("--hedge", default="taker", choices=["taker", "worst"]); ap.add_argument("--gap", default="off", choices=["off", "on"])
 A = ap.parse_args()
+A.add_timing = A.add_timing or ('qualified' if A.signal_source == 'settled' else 'recheck')
+if A.signal_source != 'settled' and A.add_timing != 'recheck':
+    ap.error('forecast variants need intracycle quotes for qualified adds; use --add-timing recheck')
 for k in ("NFB_DATA", "NFB_CAP_FILE"):
     if not os.environ.get(k): sys.exit(f"请先设置环境变量 {k}（见 README）")
 if not math.isfinite(A.fill) or not math.isfinite(A.adv) or not 0 <= A.fill <= 1 or A.adv < 0 or A.tail_hours < 0:
@@ -35,7 +40,7 @@ try:
         import numpy as np
         with np.load(os.path.join(os.environ['NFB_DATA'], 'ds/dataset.npz')) as z:
             if 'ivh' not in z.files: raise ValueError('settled strategy requires explicit ivh event intervals, including zero-rate settlements')
-            ENTRY_POLICY = settled_entry_policy(z['ev'], z['ivh'])
+            ENTRY_POLICY = settled_entry_policy(z['ev'], z['ivh'], add_timing=A.add_timing)
     else:
         ENTRY_POLICY = load_entry_policy(A.entry_snapshots or os.path.join(os.environ['NFB_DATA'], 'ds/entry_snapshots.npz'),
                                          (INPUTS['dataset_hours'], INPUTS['dataset_symbols']), symbols, A.signal_source)
@@ -102,6 +107,7 @@ def run(mode, win, mask):
     ann_mtm = net_u / S / (H / 8760) * 100
     closed_net = float(net.sum())
     continuous = A.signal_coverage == 'continuous'
+    equity = S + np.r_[0., r['cum']]; peaks = np.maximum.accumulate(equity)
     return dict(ann=ann_mtm if complete and continuous else None, ann_mtm=ann_mtm if continuous else None,
                 partial_observation_pnl_only=not continuous, period_return_on_10m_pct=net_u/S*100,
                 status="fully_unwound" if complete else "open_inventory_liability",
@@ -110,15 +116,22 @@ def run(mode, win, mask):
                 net_wan=net_u / 1e4, closed_episode_net_wan=closed_net / 1e4,
                 open_episode_net_mtm_wan=(net_u-closed_net) / 1e4,
                 account_cash_audit=cash_audit(r),
+                entry_fill_audit=dict(first_paired_fills=int(r['diag'][25]), add_paired_fills=int(r['diag'][26]),
+                                      adds_outside_recheck=int(r['diag'][27]), first_fills_outside_recheck=int(r['diag'][28])),
+                capital_usage=dict(avg_cost_usdt=float(r['diag'][15]/H), peak_cost_usdt=float(r['diag'][12]),
+                                   avg_mtm_usdt=float(r['used'].mean()), peak_mtm_usdt=float(r['diag'][13])),
+                hourly_drawdown=dict(usdt=float((peaks-equity).max()),
+                                     pct_of_initial_capital=float((peaks-equity).max()/S*100)),
                 residual_spot_notional_usdt=residual, open_symbols=int(r["diag"][24]),
                 fund_wan=r["funding"] / 1e4, fees_wan=r["fees"] / 1e4, price_wan=r["price"] / 1e4, unrealized_pair_price_wan=float(r["comp"][-1, 5]) / 1e4,
                 cost_wan=r["cost"] / 1e4, traded_wan=r["traded"] / 1e4, gap_wan=xd[35] / 1e4, tiers=tiers)
 
 allow = set(A.entry_tiers.split(","))
-mask = ENTRY_POLICY.mask.copy()
+mask = (np.ones_like(ENTRY_POLICY.mask) if A.add_timing == 'qualified'
+        else ENTRY_POLICY.mask.copy())
 if allow != {"T1", "T2", "T3", "T4"}:
     tt = tier_of(r8n); mask &= np.isin(tt.astype(str), list(allow))
-out = dict(schema_version=5, args=vars(A), inputs=INPUTS, entry_policy=ENTRY_POLICY.metadata,
+out = dict(schema_version=6, args=vars(A), inputs=INPUTS, entry_policy=ENTRY_POLICY.metadata,
            exit_policy=dict(signal='raw market settled funding sum over hours t-23..t > 0',
                             includes_pre_entry_settlements=True, normalise_to_8h=False,
                             confirmation_hours=1, locked_until_flat=True,

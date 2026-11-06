@@ -1,0 +1,188 @@
+{
+  "date": "2026-11-06",
+  "comparison_scope": "v2 add timing only; not a v1-to-v2 full attribution",
+  "checks": {
+    "input_hashes_identical": true,
+    "all_engine_parameters_identical": true,
+    "income_training_mask_identical": true,
+    "income_tables_identical": true,
+    "full_income_cost_gate_identical": true,
+    "execution_calibration_arrays_identical": true,
+    "original_v2_0_FY_fields_reproduced_exactly": true,
+    "original_model_parameters_unchanged": true,
+    "only_behavior_change": "held positions can add outside T-1h if all conditions pass",
+    "first_fills_outside_recheck": 0,
+    "tests_passed": 46
+  },
+  "recheck_only": {
+    "ann": null,
+    "ann_mtm": 19.82543279792382,
+    "partial_observation_pnl_only": false,
+    "period_return_on_10m_pct": 20.097014069128257,
+    "status": "open_inventory_liability",
+    "capital_usdt": 10000000.0,
+    "annualization_denominator_usdt": 10000000.0,
+    "borrow_interest_usdt": 0.0,
+    "n": 311,
+    "H": 8880,
+    "signal_hours": 8760,
+    "tail_hours": 120,
+    "net_wan": 200.97014069128258,
+    "closed_episode_net_wan": 196.16361431192368,
+    "open_episode_net_mtm_wan": 4.806526379358885,
+    "account_cash_audit": {
+      "initial_a_usdt": 0.0,
+      "initial_b_usdt": 10000000.0,
+      "ending_a_cash_usdt": 3598238.505371467,
+      "ending_b_wallet_usdt": 8526398.881287843,
+      "ending_b_unrealized_usdt": -60314.56821189909,
+      "ending_a_token_liability_mtm_usdt": 54621.41153445311,
+      "cumulative_b_to_a_usdt": 0.0,
+      "cumulative_a_to_b_usdt": 0.0,
+      "min_a_cash_usdt": 0.0,
+      "min_b_wallet_usdt": 8526398.881287843,
+      "unfunded_cash_deficit_usdt": 0.0,
+      "min_hourly_b_equity_usdt": 8465360.185788618,
+      "min_hourly_b_equity_minus_1x_notional_usdt": 6377119.3374489965,
+      "cash_pnl_identity_max_error_usdt": 2.139713615179062e-07,
+      "transfers": "as needed; immediate and zero-fee model; no external cash injection",
+      "withdrawal_availability_verified": false,
+      "liquidation_path_verified": false,
+      "equity_valuation": "hour-end perpetual close proxy; no intrahour margin replay"
+    },
+    "entry_fill_audit": {
+      "first_paired_fills": 312,
+      "add_paired_fills": 2253,
+      "adds_outside_recheck": 0,
+      "first_fills_outside_recheck": 0
+    },
+    "capital_usage": {
+      "avg_cost_usdt": 1476712.6393139618,
+      "peak_cost_usdt": 3800237.2478206097,
+      "avg_mtm_usdt": 1162564.3434560574,
+      "peak_mtm_usdt": 2905822.7488908106
+    },
+    "hourly_drawdown": {
+      "usdt": 117196.99876737036,
+      "pct_of_initial_capital": 1.1719699876737035
+    },
+    "residual_spot_notional_usdt": 54621.41153445311,
+    "open_symbols": 1,
+    "fund_wan": 253.2943330010349,
+    "fees_wan": 3.066551853382323,
+    "price_wan": -49.37661578831188,
+    "unrealized_pair_price_wan": 0.11897533194189236,
+    "cost_wan": 82.0102803384392,
+    "traded_wan": 3352.75442574522,
+    "gap_wan": 0.0,
+    "tiers": {
+      "T1": {
+        "n": 0,
+        "net_wan": 0.0,
+        "hold_h": 0.0
+      },
+      "T2": {
+        "n": 116,
+        "net_wan": 16.077774204301484,
+        "hold_h": 217.29310344827587
+      },
+      "T3": {
+        "n": 112,
+        "net_wan": 53.06582421491857,
+        "hold_h": 410.86607142857144
+      },
+      "T4": {
+        "n": 83,
+        "net_wan": 127.02001589270363,
+        "hold_h": 526.566265060241
+      }
+    }
+  },
+  "qualified_adds": {
+    "ann": null,
+    "ann_mtm": 21.748067852966262,
+    "partial_observation_pnl_only": false,
+    "period_return_on_10m_pct": 22.045986590678133,
+    "status": "open_inventory_liability",
+    "capital_usdt": 10000000.0,
+    "annualization_denominator_usdt": 10000000.0,
+    "borrow_interest_usdt": 0.0,
+    "n": 310,
+    "H": 8880,
+    "signal_hours": 8760,
+    "tail_hours": 120,
+    "net_wan": 220.45986590678132,
+    "closed_episode_net_wan": 223.1202318061932,
+    "open_episode_net_mtm_wan": -2.660365899411868,
+    "account_cash_audit": {
+      "initial_a_usdt": 0.0,
+      "initial_b_usdt": 10000000.0,
+      "ending_a_cash_usdt": 5449825.032012821,
+      "ending_b_wallet_usdt": 7265492.58056507,
+      "ending_b_unrealized_usdt": -276904.0489242447,
+      "ending_a_token_liability_mtm_usdt": 233814.90458574615,
+      "cumulative_b_to_a_usdt": 0.0,
+      "cumulative_a_to_b_usdt": 0.0,
+      "min_a_cash_usdt": 0.0,
+      "min_b_wallet_usdt": 7265492.58056507,
+      "unfunded_cash_deficit_usdt": 0.0,
+      "min_hourly_b_equity_usdt": 6985504.705175723,
+      "min_hourly_b_equity_minus_1x_notional_usdt": 3706829.826150853,
+      "cash_pnl_identity_max_error_usdt": 1.6624107956886292e-07,
+      "transfers": "as needed; immediate and zero-fee model; no external cash injection",
+      "withdrawal_availability_verified": false,
+      "liquidation_path_verified": false,
+      "equity_valuation": "hour-end perpetual close proxy; no intrahour margin replay"
+    },
+    "entry_fill_audit": {
+      "first_paired_fills": 311,
+      "add_paired_fills": 4311,
+      "adds_outside_recheck": 2495,
+      "first_fills_outside_recheck": 0
+    },
+    "capital_usage": {
+      "avg_cost_usdt": 2366392.392475557,
+      "peak_cost_usdt": 6341860.553417236,
+      "avg_mtm_usdt": 1894331.776216392,
+      "peak_mtm_usdt": 4963027.91586684
+    },
+    "hourly_drawdown": {
+      "usdt": 351255.19778576866,
+      "pct_of_initial_capital": 3.5125519778576866
+    },
+    "residual_spot_notional_usdt": 233814.90458574615,
+    "open_symbols": 1,
+    "fund_wan": 312.689620929448,
+    "fees_wan": 5.3164268560523675,
+    "price_wan": -87.33604086644563,
+    "unrealized_pair_price_wan": 0.4227126998313237,
+    "cost_wan": 141.70737219085518,
+    "traded_wan": 5811.106765536015,
+    "gap_wan": 0.0,
+    "tiers": {
+      "T1": {
+        "n": 0,
+        "net_wan": 0.0,
+        "hold_h": 0.0
+      },
+      "T2": {
+        "n": 115,
+        "net_wan": 15.529261979448556,
+        "hold_h": 233.24347826086955
+      },
+      "T3": {
+        "n": 112,
+        "net_wan": 104.73425718025356,
+        "hold_h": 449.1875
+      },
+      "T4": {
+        "n": 83,
+        "net_wan": 102.85671264649112,
+        "hold_h": 565.4096385542168
+      }
+    }
+  },
+  "delta_mtm_annualized_percentage_points": 1.9226350550424414,
+  "delta_net_mtm_usdt": 194897.25215498736,
+  "income_estimation_limit": "Tables trained at T-1h recheck times remain frozen and are also applied to intracycle adds; no separate intracycle calibration."
+}

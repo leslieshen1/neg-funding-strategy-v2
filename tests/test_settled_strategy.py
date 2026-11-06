@@ -10,6 +10,40 @@ from test_two_accounts import replay
 
 
 class SettledStrategyTests(unittest.TestCase):
+    def test_only_first_fill_requires_recheck_then_adds_can_fill_between(self):
+        ev = np.zeros((16, 1)); iv = np.zeros_like(ev)
+        ev[::8] = -.002; iv[::8] = 8
+        p = entry_policy.settled_entry_policy(ev, iv)
+        r = replay(events=ev, intervals=iv, entry_rates=p.r8,
+                   allowed=np.ones_like(iv), first_entry_mask=p.mask,
+                   volumes=np.full_like(iv, 1000.), obs=1., add_n=1, end=16)
+        self.assertEqual(r['pos'][6, 0], 0)
+        self.assertGreater(r['pos'][7, 0], 0)  # first fill is at T-1h
+        self.assertFalse(p.mask[8, 0])
+        self.assertGreater(r['pos'][8, 0], r['pos'][7, 0])  # add outside T-1h
+
+    def test_failed_conditions_stop_adds_without_closing_existing_hedge(self):
+        ev = np.zeros((16, 1)); iv = np.zeros_like(ev)
+        ev[0] = -.002; iv[::8] = 8  # zero settlement at 8 disables adds
+        p = entry_policy.settled_entry_policy(ev, iv)
+        r = replay(events=ev, intervals=iv, entry_rates=p.r8,
+                   allowed=np.ones_like(iv), first_entry_mask=p.mask,
+                   volumes=np.full_like(iv, 1000.), obs=1., add_n=1, end=16)
+        self.assertGreater(r['pos'][7, 0], 0)
+        self.assertEqual(r['pos'][8, 0], r['pos'][7, 0])
+        self.assertEqual(r['pos'][9, 0], r['pos'][7, 0])
+
+    def test_after_flat_new_first_fill_must_wait_for_recheck_again(self):
+        events = np.zeros((16, 1)); events[8] = .01; events[9] = -.02
+        recheck = np.zeros_like(events); recheck[[7, 11]] = 1
+        rates = np.full_like(events, -.002); rates[8] = 0
+        r = replay(events=events, entry_rates=rates, allowed=np.ones_like(events),
+                   first_entry_mask=recheck, volumes=np.full_like(events, 1000.),
+                   obs=1., add_n=1, end=16)
+        self.assertEqual(r['pos'][8, 0], 0)
+        self.assertEqual(r['pos'][10, 0], 0)
+        self.assertGreater(r['pos'][11, 0], 0)
+
     def test_causal_normalisation_and_next_settlement_recheck(self):
         ev = np.zeros((17, 3)); iv = np.zeros_like(ev)
         for n, hours in enumerate((1, 4, 8)):
